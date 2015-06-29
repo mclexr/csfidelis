@@ -2,7 +2,7 @@
 require_once "vendor/autoload.php";
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-use Namshi\JOSE\SimpleJWS;
+
 use App\Model\Usuario;
 
 $app = new \Slim\Slim();
@@ -36,24 +36,29 @@ $app->run();
 
 
 function testeJwt() {
-$key = "testeMaster";
+$key = "Familia#Amigos@Master!";
+$dataToken = time();
+try {
+$token = array(
+    "iss" => "mclexr@gmail.com",
+    "aud" => "http://csfidelis/auth",
+    "iat" => $dataToken,
+    "exp" => $dataToken + 7200
+);
 
-$header = new \Psecio\Jwt\Header($key);
-$jwt = new \Psecio\Jwt\Jwt($header);
-
-$jwt
-    ->issuer('http://example.org')
-    ->audience('http://example.com')
-    ->issuedAt(1356999524)
-    ->notBefore(1357000000)
-    ->expireTime(time()+3600)
-    ->jwtId('id123456')
-    ->type('https://example.com/register');
-
-$result = $jwt->encode();
-echo 'ENCODED: '.$result."\n\n";
-echo 'DECODED: '.var_export($jwt->decode($result), true);
+$jwt = JWT::encode($token, $key);
+$decoded = JWT::decode($jwt, $key, array('HS256'));
 
 
+echo 'ENCODED: '.$jwt."\n";
+echo 'DECODED: '.json_encode($decoded, JSON_PRETTY_PRINT);
+echo "\n";
+echo 'Criado em: '. date('d/m/Y H:i:s', $token["iat"]);
+echo "\n";
+echo 'Expira em: '. date('d/m/Y H:i:s', $token["exp"]);
+} catch(\ExpiredException $e) {
+    $error = array("code" => $e->getCode(), "message" => $e->getMessage());
+    echo("{\"error\":" . json_encode($error, JSON_PRETTY_PRINT) . "}");
+}
 }
 ?>

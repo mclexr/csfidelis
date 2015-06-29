@@ -7,9 +7,8 @@
             "role": "Developer"
         }],
   "require" : {
-    "slim/slim": "2.*",
-    "doctrine/orm": "2.*",
-    "psecio/jwt": "1.*",
+        "slim/slim": "2.*",
+        "doctrine/orm": "2.*",
         "firebase/php-jwt": "^2.2"
   },
   "autoload": {
