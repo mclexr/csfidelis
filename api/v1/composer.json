@@ -9,14 +9,17 @@
   "require" : {
         "slim/slim": "2.*",
         "doctrine/orm": "2.*",
-        "firebase/php-jwt": "^2.2"
+        "firebase/php-jwt": "^2.2",
+        "monolog/monolog": "^1.14"
   },
   "autoload": {
     "psr-4": {
     	"App\\":"app",
         "App\\Model\\":"app/models",
         "App\\Provider\\":"app/providers",
-        "App\\Controller\\":"app/controllers"
+        "App\\Controller\\":"app/controllers",
+        "App\\Middleware\\":"app/middlewares"
+
     }
 }
 }

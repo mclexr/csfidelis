@@ -66,7 +66,7 @@ class Treinamento implements \JsonSerializable {
 			'id' => $this->id,
 			'empresa' => $this->empresa->getNome(),
 			'tipoTreinamento' => $this->tipoTreinamento->getDescricao(),
-			'data' => $this->data->format('Y-m-d')
+			'data' => $this->data->format('Y-m-d h:i:s')
 		];
 	}
 }
