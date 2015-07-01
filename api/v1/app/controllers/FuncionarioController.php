@@ -35,12 +35,16 @@ function addFuncionario() {
 	$funcionarioRequest = json_decode($request->getBody());
 
     $funcionario = new Funcionario();
-	$funcionario->setId($funcionarioRequest->id);
 	$funcionario->setNome($funcionarioRequest->nome);
 	$funcionario->setIdentificacao($funcionarioRequest->identificacao);
-	$funcionario->setEmpresa($empresa);
-	$funcionario->setFuncao($funcao);
-	$funcionario->setDataAdmissao(new DateTime($funcionarioRequest->dataAdmissao));
+
+    $empresa = $this->entityManager->find("App\Model\Empresa", $funcionarioRequest->empresa->id);
+    $funcionario->setEmpresa($empresa);
+
+    $funcao = $this->entityManager->find("App\Model\Funcao", $funcionarioRequest->funcao->id);
+    $funcionario->setFuncao($funcao);
+
+    $funcionario->setDataAdmissao(new \DateTime($funcionarioRequest->dataAdmissao));
 
 	$this->entityManager->persist($funcionario);
 	$this->entityManager->flush();
@@ -64,17 +68,17 @@ function updateFuncionario($id) {
 	   $funcionario->setIdentificacao($funcionarioRequest->identificacao);
     }
     if(isset($funcionarioRequest->empresa->id)) {
-        $empresa = $entityManager->find("Empresa", $funcionarioRequest->empresa->id);
+        $empresa = $this->entityManager->find("App\Model\Empresa", $funcionarioRequest->empresa->id);
         $funcionario->setEmpresa($empresa);
     }
 
     if(isset($funcionarioRequest->funcao->id)) {
-        $funcao = $entityManager->find("Funcao", $funcionarioRequest->funcao->id);
+        $funcao = $this->entityManager->find("App\Model\Funcao", $funcionarioRequest->funcao->id);
         $funcionario->setFuncao($funcao);
     }
 
     if(isset($funcionarioRequest->dataAdmissao)) {
-	   $funcionario->setDataAdmissao(new DateTime($funcionarioRequest->dataAdmissao));
+	   $funcionario->setDataAdmissao(new \DateTime($funcionarioRequest->dataAdmissao));
     }
 
     $this->entityManager->merge($funcionario);

@@ -20,11 +20,6 @@ class FuncionarioTreinamento implements \JsonSerializable {
 	 */
 	private $treinamento;
 
-	public function __construct() {
-		$this->treinamento = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->funcionario = new \Doctrine\Common\Collections\ArrayCollection();
-	}
-
 	public function getFuncionario() {
 		return $this->funcionario;
 	}

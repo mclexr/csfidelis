@@ -3,6 +3,7 @@ namespace App\Controller;
 
 	use App\Provider\DoctrineProvider;
 	use App\Model\Treinamento;
+	use App\Model\FuncionarioTreinamento;
 
 class TreinamentoController {
 
@@ -33,13 +34,13 @@ function addTreinamento() {
 
 	$treinamento = new Treinamento();
 
-    $empresa = $this->entityManager->find("Empresa", $treinamentoRequest->empresa->id);
+    $empresa = $this->entityManager->find("App\Model\Empresa", $treinamentoRequest->empresa->id);
     $treinamento->setEmpresa($empresa);
 
-	$tipoTreinamento = $this->entityManager->find("TipoTreinamento", $treinamentoRequest->tipoTreinamento->id);
+	$tipoTreinamento = $this->entityManager->find("App\Model\TipoTreinamento", $treinamentoRequest->tipoTreinamento->id);
 	$treinamento->setTipoTreinamento($tipoTreinamento);
 
-	$treinamento->setData(new DateTime($treinamentoRequest->data));
+	$treinamento->setData(new \DateTime($treinamentoRequest->data));
 
 	$this->entityManager->persist($treinamento);
 	$this->entityManager->flush();
@@ -67,6 +68,25 @@ function getFuncionariosPorTreinamento($idTreinamento) {
     $this->app->response->setStatus(200);
 }
 
+function addFuncionario($id) {
+    $request = $this->app->request();
+	$funcionarioRequest = json_decode($request->getBody());
+
+    $treinamento = $this->entityManager->find("App\Model\Treinamento", $id);
+    $funcionario = $this->entityManager->find("App\Model\Funcionario", $funcionarioRequest->id);
+
+    $funcionarioTreinamento = new FuncionarioTreinamento();
+    $funcionarioTreinamento->setFuncionario($funcionario);
+    $funcionarioTreinamento->setTreinamento($treinamento);
+
+    $this->entityManager->persist($funcionarioTreinamento);
+	$this->entityManager->flush();
+
+	$this->app->response->setBody("{\"funcionarioTreinamento\":" . json_encode($funcionarioTreinamento,JSON_PRETTY_PRINT) . "}");
+    $this->app->response->setStatus(200);
+
+}
+
 
 function updateTreinamento($id) {
 	$request = $this->app->request();
@@ -75,17 +95,17 @@ function updateTreinamento($id) {
 	$treinamento = $this->entityManager->find("App\Model\Treinamento", $id);
 
     if(isset($treinamentoRequest->empresa->id)) {
-        $empresa = $this->entityManager->find("Empresa", $treinamentoRequest->empresa->id);
+        $empresa = $this->entityManager->find("App\Model\Empresa", $treinamentoRequest->empresa->id);
 	   $treinamento->setEmpresa($empresa);
     }
 
     if(isset($treinamentoRequest->tipoTreinamento->id)) {
-        $tipoTreinamento = $this->entityManager->find("TipoTreinamento", $treinamentoRequest->tipoTreinamento->id);
+        $tipoTreinamento = $this->entityManager->find("App\Model\TipoTreinamento", $treinamentoRequest->tipoTreinamento->id);
         $treinamento->setTipoTreinamento($tipoTreinamento);
     }
 
     if(isset($treinamentoRequest->data)){
-        $treinamento->setData(new DateTime($treinamentoRequest->data));
+        $treinamento->setData(new \ DateTime($treinamentoRequest->data));
     }
 
 	$this->entityManager->merge($treinamento);

@@ -8,7 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Slim' => array($vendorDir . '/slim/slim'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
-    'Psecio' => array($vendorDir . '/psecio/jwt/src'),
+    'Flynsarmy\\SlimMonolog' => array($vendorDir . '/flynsarmy/slim-monolog'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),

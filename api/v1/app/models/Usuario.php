@@ -18,7 +18,7 @@ class Usuario implements \JsonSerializable {
 	 */
 	private $nome;
 	/**
-	 * @Column(type="string", name="email")
+	 * @Column(type="string", name="email", unique=true)
 	 */
 	private $email;
 	/**

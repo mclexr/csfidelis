@@ -10,7 +10,8 @@
         "slim/slim": "2.*",
         "doctrine/orm": "2.*",
         "firebase/php-jwt": "^2.2",
-        "monolog/monolog": "^1.14"
+        "monolog/monolog": "^1.14",
+        "flynsarmy/slim-monolog": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -18,8 +19,8 @@
         "App\\Model\\":"app/models",
         "App\\Provider\\":"app/providers",
         "App\\Controller\\":"app/controllers",
-        "App\\Middleware\\":"app/middlewares"
-
+        "App\\Middleware\\":"app/middlewares",
+        "App\\Helper\\": "app/helpers"
     }
 }
 }

@@ -15,7 +15,7 @@ class TokenProvider {
 
     public function getToken($email, $password) {
         if(!isset($email) || !isset($password)) {
-            throw new \Exception("Problemas na autenticação.");
+            throw new \Exception("Problemas na autenticação.", 401);
         }
 
         $usuario = $this->entityManager
@@ -23,24 +23,31 @@ class TokenProvider {
         ->findOneBy(array('email' => $email));
 
         if(!isset($usuario)) {
-            throw new \Exception("Problemas na autenticação.");
+            throw new \Exception("Problemas na autenticação.", 401);
         }
 
         if(password_verify($password, $usuario->getSenha())) {
             return $this->gerarToken($usuario);
         }
-         throw new \Exception("Problemas na autenticação.");
+         throw new \Exception("Problemas na autenticação.", 401);
     }
 
     public function verificarToken() {
-        $header = apache_request_headers()["Authorization"];
-        $token = str_replace(array("Bearer", " "), "", $header);
+        //Codifico os headers em json, pois sem isso não consigo acessar o header "Authorization"
+        $headersJson = json_encode(apache_request_headers());
 
-        if(!isset($token)) {
-            throw new \Exception("Token não informado.");
+        //Decodifico os headers para objeto
+        $headers = json_decode($headersJson);
+
+        //Cason nao encontre a propriedade "Authorization não continua
+        if(!isset($headers->Authorization)) {
+            throw new \Exception("Token não informado.", 401);
         }
 
+        //Retiro a palavra Bearer do header
+        $token = str_replace(array("Bearer", " "), "", $headers->Authorization);
 
+        //Verifico o token
         $decoded = \JWT::decode($token, self::KEY, array('HS256'));
         return $this->tokenResponse($token, $decoded->exp);
 
@@ -50,7 +57,7 @@ class TokenProvider {
         $token = array(
             "iss" => $usuario->getEmail(),
             "iat" => $dataToken,
-            "exp" => $dataToken + 100,
+            "exp" => $dataToken + 10800,
             "aud" => "http://csfidelis.com.br/api/v1/auth/verify",
         );
         $tokenCode = \JWT::encode($token, self::KEY);

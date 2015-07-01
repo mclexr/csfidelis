@@ -22,4 +22,9 @@ $app->delete('/usuarios/:id', function($id) use($usuarioController){
     $usuarioController->removeUsuario($id);
 })->conditions(array('id' => '[0-9]+'));
 
+$app->post('/recoverPassword', function($id) use($usuarioController){
+    $usuarioController->recoverPassword($id);
+})->conditions(array('id' => '[0-9]+'));
+
+
 ?>

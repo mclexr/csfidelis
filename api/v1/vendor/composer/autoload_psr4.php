@@ -12,6 +12,7 @@ return array(
     'App\\Provider\\' => array($baseDir . '/app/providers'),
     'App\\Model\\' => array($baseDir . '/app/models'),
     'App\\Middleware\\' => array($baseDir . '/app/middlewares'),
+    'App\\Helper\\' => array($baseDir . '/app/helpers'),
     'App\\Controller\\' => array($baseDir . '/app/controllers'),
     'App\\' => array($baseDir . '/app'),
 );

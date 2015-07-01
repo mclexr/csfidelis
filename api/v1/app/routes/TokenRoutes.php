@@ -1,14 +1,13 @@
 <?php
-use App\Controller\AuthController;
-$authController = new AuthController();
+use App\Controller\TokenController;
+$tokenController = new TokenController();
 
-$app->post('/auth', function() use($authController){
+$app->map('/auth', function() use($tokenController){
+    $tokenController->getToken();
+})->via('GET', 'POST');
 
-    $authController->getToken();
-});
-
-$app->get('/auth/verify', function() use($authController){
-    $authController->verificarToken();
+$app->get('/auth/verify', function() use($tokenController){
+   $tokenController->verificarToken();
 });
 
 ?>

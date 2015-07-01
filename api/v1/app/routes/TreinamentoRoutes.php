@@ -27,4 +27,10 @@ $app->delete('/treinamentos/:id', function($id) use($treinamentoController){
     $treinamentoController->removeTreinamento($id);
 })->conditions(array('id' => '[0-9]+'));
 
+
+$app->post('/treinamentos/:id/funcionarios', function($id) use($treinamentoController){
+    $treinamentoController->addFuncionario($id);
+})->conditions(array('id' => '[0-9]+'));
+
+
 ?>
