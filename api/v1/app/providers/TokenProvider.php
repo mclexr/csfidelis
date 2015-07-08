@@ -6,7 +6,7 @@ namespace App\Provider;
 
 class TokenProvider {
 
-    const KEY = "Familia#Amigos@Master!";
+    const KEY = "blaBlaBlaKey";
     private $entityManager;
 
 	public function __construct() {
